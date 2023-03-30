@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ToDoWebApp.Data;
 namespace ToDoWebApp
 {
     public class Program
@@ -5,6 +8,8 @@ namespace ToDoWebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ToDoWebAppContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoWebAppContext") ?? throw new InvalidOperationException("Connection string 'ToDoWebAppContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddRazorPages();
